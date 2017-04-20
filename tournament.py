@@ -13,14 +13,32 @@ def connect():
 
 def deleteMatches():
     """Remove all the match records from the database."""
+    db = connect()
+    c = db.cursor()
+    c.execute('DELETE FROM matches')
+    db.commit()
+    db.close()
 
 
 def deletePlayers():
     """Remove all the player records from the database."""
+    db = connect()
+    c = db.cursor()
+    c.execute('DELETE FROM players')
+    db.commit()
+    db.close()
 
 
 def countPlayers():
     """Returns the number of players currently registered."""
+    db = connect()
+    c = db.cursor()
+    c.execute('SELECT player_id, count(*) as total FROM players group by player_id')
+    rows = c.fetchall()
+    db.close()
+    for row in rows:
+        result = row[0]
+    return result
 
 
 def registerPlayer(name):
@@ -32,6 +50,11 @@ def registerPlayer(name):
     Args:
       name: the player's full name (need not be unique).
     """
+    db = connect()
+    c = db.cursor()
+    c.execute('INSERT INTO players (player_name) VALUES (%s)', (name,))
+    db.commit()
+    db.close()
 
 
 def playerStandings():
@@ -47,6 +70,13 @@ def playerStandings():
         wins: the number of matches the player has won
         matches: the number of matches the player has played
     """
+     db = connect()
+     c = db.cursor()
+     sql = ()
+     c.execute(sql)
+     results = c.fetchall()
+     return results
+     db.close()
 
 
 def reportMatch(winner, loser):
@@ -56,6 +86,12 @@ def reportMatch(winner, loser):
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
     """
+    db = connect()
+    c = db.cursor()
+    c.execute('INSERT INTO matches (winner, loser) '
+              'VALUES (%s, %s)', (winner, loser,))
+    db.commit()
+    db.close()
  
  
 def swissPairings():
