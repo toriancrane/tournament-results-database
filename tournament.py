@@ -33,12 +33,12 @@ def countPlayers():
     """Returns the number of players currently registered."""
     db = connect()
     c = db.cursor()
-    c.execute('SELECT player_id, count(*) as total FROM players group by player_id')
-    rows = c.fetchall()
+    c.execute('SELECT count(player_id) from players')
+    player_count = c.fetchone()[0]
+    print player_count
     db.close()
-    for row in rows:
-        result = row[0]
-    return result
+    return player_count
+
 
 
 def registerPlayer(name):
@@ -70,13 +70,18 @@ def playerStandings():
         wins: the number of matches the player has won
         matches: the number of matches the player has played
     """
-     db = connect()
-     c = db.cursor()
-     sql = ()
-     c.execute(sql)
-     results = c.fetchall()
-     return results
-     db.close()
+    db = connect()
+    c = db.cursor()
+    sql = ("SELECT player_id, player_name, COUNT(matches.winner) AS wins, "
+             "(SELECT total_matches FROM total_view WHERE total_view.player_id = players.player_id) "
+             "FROM players LEFT JOIN matches "
+             "ON players.player_id = matches.winner "
+             "GROUP BY players.player_id, players.player_name "
+             "ORDER BY wins DESC")
+    c.execute(sql)
+    results = c.fetchall()
+    db.close()
+    return results
 
 
 def reportMatch(winner, loser):
@@ -109,5 +114,18 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
+    standings = playerStandings()
+    length = len(standings)
+    pairings = []
+
+    x = 0
+    while(x < length):
+        id1 = standings[x][0]
+        name1 = standings[x][1]
+        id2 = standings[x + 1][0]
+        name2 = standings[x + 1][1]
+        pairings.append((id1, name1, id2, name2))
+        x += 2
+    return pairings
 
 
