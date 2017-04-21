@@ -4,6 +4,7 @@
 #
 
 import psycopg2
+import bleach
 
 
 def connect():
@@ -50,9 +51,10 @@ def registerPlayer(name):
     Args:
       name: the player's full name (need not be unique).
     """
+    clean_name = bleach.clean(name)
     db = connect()
     c = db.cursor()
-    c.execute('INSERT INTO players (player_name) VALUES (%s)', (name,))
+    c.execute('INSERT INTO players (player_name) VALUES (%s)', (clean_name,))
     db.commit()
     db.close()
 
@@ -73,7 +75,8 @@ def playerStandings():
     db = connect()
     c = db.cursor()
     sql = ("SELECT player_id, player_name, COUNT(matches.winner) AS wins, "
-             "(SELECT total_matches FROM total_view WHERE total_view.player_id = players.player_id) "
+             "(SELECT total_matches FROM total_view "
+             "WHERE total_view.player_id = players.player_id) "
              "FROM players LEFT JOIN matches "
              "ON players.player_id = matches.winner "
              "GROUP BY players.player_id, players.player_name "
@@ -91,10 +94,12 @@ def reportMatch(winner, loser):
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
     """
+    clean_winner = bleach.clean(winner)
+    clean_loser = bleach.clean(loser)
     db = connect()
     c = db.cursor()
     c.execute('INSERT INTO matches (winner, loser) '
-              'VALUES (%s, %s)', (winner, loser,))
+              'VALUES (%s, %s)', (clean_winner, clean_loser,))
     db.commit()
     db.close()
  
