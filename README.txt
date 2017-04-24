@@ -38,4 +38,4 @@ If successful, you should see a success message as the bottom of the terminal.
 *Delete all matches: tournament.deleteMatches()
 *Generate list of players and their wins: tournament.playerStandings()
 *Delete entire database and create a new one: exit()
-**psql -f tournament.sql
+*** psql -f tournament.sql
