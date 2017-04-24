@@ -8,8 +8,6 @@
 
 -- Drop table/db if it already exists;
 DROP DATABASE IF EXISTS tournament;
-DROP TABLE IF EXISTS players;
-DROP TABLE IF EXISTS matches;
 
 --Tournament database
 CREATE DATABASE tournament;

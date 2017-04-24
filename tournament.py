@@ -36,7 +36,6 @@ def countPlayers():
     c = db.cursor()
     c.execute('SELECT count(player_id) from players')
     player_count = c.fetchone()[0]
-    print player_count
     db.close()
     return player_count
 
@@ -74,13 +73,12 @@ def playerStandings():
     """
     db = connect()
     c = db.cursor()
-    sql = ("SELECT player_id, player_name, COUNT(matches.winner) AS wins, "
-             "(SELECT total_matches FROM total_view "
-             "WHERE total_view.player_id = players.player_id) "
-             "FROM players LEFT JOIN matches "
-             "ON players.player_id = matches.winner "
-             "GROUP BY players.player_id, players.player_name "
-             "ORDER BY wins DESC")
+    sql = ("select player_id, player_name, "
+	       "(select count(*) from matches where matches.winner = players.player_id) as wins, "
+	       "(select count(*) from matches where matches.winner = players.player_id "
+                                        "or matches.loser = players.player_id) as total_matches "
+			"from players "
+			"order by wins desc")
     c.execute(sql)
     results = c.fetchall()
     db.close()
