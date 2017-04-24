@@ -12,7 +12,9 @@ Please note that you will need the following programs installed/downloaded:
 3) [Vagrant VM Package](http://github.com/udacity/fullstack-nanodegree-vm)
 4) [Git/ Git Bash](https://git-scm.com/downloads)
 
-# Usage
+#### Usage
+
+#Testing the Code with a Test File
 Once you have completed the above, do the following:
 1) Navigate to the vagrant folder inside of the cloned Vagrant VM package.
 2) Open a Git Bash terminal inside of this folder.
