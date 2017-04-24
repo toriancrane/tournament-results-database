@@ -19,7 +19,7 @@ Once you have completed the above, do the following:
 3) Type in "vagrant up" into the command line.
 4) Type in "vagrant ssh" into the command line.
 5) cd into /vagrant/tournament
-6) Type in "python tournament_results.py" into the command line.
+6) Type in "python tournament_test.py" into the command line.
 
 If successful, you should see a success message as the bottom of the terminal.
 
