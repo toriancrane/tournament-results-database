@@ -6,34 +6,51 @@ show how the all of the database functions work.
 
 # Installation
 
-Please note that you will need the following programs installed/downloaded:
-1) [VirtualBox installation](https://www.virtualbox.org/wiki/Downloads)
-2) [Vagrant installation](https://www.vagrantup.com/downloads)
-3) [Vagrant VM Package](http://github.com/udacity/fullstack-nanodegree-vm)
-4) [Git/ Git Bash](https://git-scm.com/downloads)
+You will need to have Python, PostgreSQL, and Git installed.
+You will also need to clone this repo, you can do so by entering the following command in the terminal:
+
+git clone https://github.com/toriancrane/tournament-results-database
 
 #### Usage
 
-#Testing the Code with a Test File
-Once you have completed the above, do the following:
-1) Navigate to the vagrant folder inside of the cloned Vagrant VM package.
-2) Open a Git Bash terminal inside of this folder.
-3) Type in "vagrant up" into the command line.
-4) Type in "vagrant ssh" into the command line.
-5) cd into /vagrant/tournament
-6) Type in "python tournament_test.py" into the command line.
+1) CD into the appropriate folder.
 
-If successful, you should see a success message as the bottom of the terminal.
+$ cd tournament-results-database
 
-# Building Your Own Tournament Database
+2) Create a clean database and tables by importing tournament.sql
 
-1) Follow steps 1-4 in the Usage section to login to the Vagrant Virtual Machine.
-2) Additionally follow step 5 to move into the tournament directory.
-3) Once there, run 'psql -f tournament.sql' to create the required database.
-4) Type in "python" to run the Python command line.
-5) Type in "import tournament" to import the tournament database
-6) Use the following commands to manipulate your database:
-*Register a new Player: tournament.registerPlayer(player name)
+$ psql
+=> \i tournament.sql
+
+Note: The program has been built to drop existing databases and create a new one for you upon import.
+
+3) You should see the following if successful:
+
+=> \i tournament.sql
+DROP DATABASE
+CREATE DATABASE
+You are now connected to database "tournament" as user "vagrant".
+CREATE TABLE
+CREATE TABLE
+
+$ Exit out of psql and run the following python command to test the database functionality with the provided test script:
+
+tournament=> \q
+$python tournament_test.py
+
+#### Building Your Own Tournament Database
+1)Create a clean database and tables by importing tournament.sql
+
+$ psql
+=> \i tournament.sql
+
+2) Exit out of psql.
+
+tournament=> \q
+
+3) Use the following commands to manipulate your database:
+
+*Register a new Player: tournament.registerPlayer(player_name)
 *Report a match results: tournament.reportMatch(winner_id, loser_id)
 *Get pairings: tournament.swissPairings()
 *Delete all players: tournament.deletePlayers()
@@ -41,3 +58,5 @@ If successful, you should see a success message as the bottom of the terminal.
 *Generate list of players and their wins: tournament.playerStandings()
 *Delete entire database and create a new one: exit()
 *** psql -f tournament.sql
+
+Feel free to use the contents of the tournament_test.py file as a helpful guide.
