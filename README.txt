@@ -7,7 +7,7 @@ show how the all of the database functions work.
 # Installation
 
 You will need to have Python, PostgreSQL, and Git installed.
-You will also need to clone this repo, you can do so by entering the following command in the terminal:
+You will also need to clone this repo. You can do so by entering the following command in the terminal:
 
 git clone https://github.com/toriancrane/tournament-results-database
 
